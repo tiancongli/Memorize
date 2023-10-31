@@ -35,7 +35,6 @@ struct ContentView: View {
             "cloud.fog",
             "cloud.sun.fill"
         ]
-        
     ]
     
     var body: some View {
@@ -45,7 +44,6 @@ struct ContentView: View {
             cards
             Spacer()
             controller
-            
         }
         .padding()
     }
@@ -71,7 +69,6 @@ struct ContentView: View {
     }
     
     var controller: some View {
-        
         HStack {
             controllerTab(icon: "figure.run", label: "Sport")
             Spacer()
@@ -92,8 +89,6 @@ struct ContentView: View {
     }
 }
     
-
-
 struct CardView: View {
     let icon: String
     @State var isFaceDown = true
@@ -105,7 +100,6 @@ struct CardView: View {
             IconView(icon: icon).font(.largeTitle)
             if (isFaceDown) {
                 box.fill(.orange)
-                    
             }
         }
         .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
@@ -134,7 +128,6 @@ struct IconView: View {
             }
         }
     }
-    
     
     var bodyContent: some View {
         Group {
