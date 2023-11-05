@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MemorizeView.swift
 //  Memorize
 //
 //  Created by Tim Li on 28/10/2023.
@@ -7,35 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MemorizeView: View {
+    private var viewModal: MemorizeViewModel = MemorizeViewModel()
     @State var theme: String = "Sport"
-    let cardsByTheme = [
-        "Sport": [
-            "figure.archery",
-            "figure.basketball",
-            "figure.skiing.downhill",
-            "figure.soccer",
-            "figure.tennis",
-            "figure.outdoor.cycle",
-            "figure.open.water.swim"
-        ],
-        "Transport": [
-            "bus",
-            "tram",
-            "airplane",
-            "car",
-            "ferry",
-            "scooter"
-        ],
-        "Weather": [
-            "sun.rain.fill",
-            "sun.snow",
-            "cloud",
-            "cloud.drizzle",
-            "cloud.fog",
-            "cloud.sun.fill"
-        ]
-    ]
     
     var body: some View {
         VStack {
@@ -56,13 +30,13 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        var emojis = cardsByTheme[theme] ?? []
-        emojis = emojis + emojis
-        emojis.shuffle()
         return ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                ForEach(emojis.indices, id: \.self) { index in
-                    CardView(icon: emojis[index])
+                ForEach(viewModal.cards) { card in
+                    CardView(card: card)
+                        .onTapGesture {
+                            viewModal.choose(card: card)
+                        }
                 }
             }
         }
@@ -90,22 +64,18 @@ struct ContentView: View {
 }
     
 struct CardView: View {
-    let icon: String
-    @State var isFaceDown = true
+    var card: MemorizeModel.Card
     
     var body: some View {
         let box = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
         ZStack {
             box.stroke(.orange, lineWidth: 2)
-            IconView(icon: icon).font(.largeTitle)
-            if (isFaceDown) {
+            IconView(icon: card.content).font(.largeTitle)
+            if (!card.isFaceUp) {
                 box.fill(.orange)
             }
         }
         .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 100)
-        .onTapGesture {
-            isFaceDown = !isFaceDown
-        }
     }
 }
 
@@ -141,5 +111,5 @@ struct IconView: View {
 }
     
 #Preview {
-    ContentView()
+    MemorizeView()
 }
